@@ -11,13 +11,16 @@ jobs:
       HTTP_SECURE: false
       CLIENT_URL: http://local.test.com:3000
       CLIENT_DOMAIN: local.test.com
+      MONGO_URI: mongodb://localhost:27017/auth
     steps:
       - uses: actions/checkout@v4
       - name: Starting Node.Js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: cd common && npm i && npm run build
+      - name: Build auth service
+        run: cd auth && npm i && npm run build
       - name: Test auth service
-        run: cd auth && npm i && npm run build && npm run test:ci
-        env: 
-          MONGO_URI: mongodb://localhost:27017/auth
+        run: cd auth && npm i && npm run test:ci
