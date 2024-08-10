@@ -1,0 +1,21 @@
+{
+  "name": "app2",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "skaffold dev --no-prune=false --cache-artifacts=false --trigger=manual",
+    "start:cache": "skaffold dev --no-prune=false --trigger=manual"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "client",
+    "auth",
+    "common",
+    "tickets",
+    "orders",
+    "expiration",
+    "payments"
+  ]
+}

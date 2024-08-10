@@ -1,0 +1,7 @@
+**/node_modules
+client/.next
+**/.env.*
+kubernetes
+nats-test
+stripe-test
+**/dist
