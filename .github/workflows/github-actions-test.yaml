@@ -1,5 +1,12 @@
 name: Test services
-on: [pull_request]
+on: 
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+    
 jobs:
   init:
     runs-on: ubuntu-20.04 
@@ -18,9 +25,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
+      - name: Setup common
         run: cd common && npm i && npm run build
+      - name: Install dependencies
+        run: cd auth && npm i
       - name: Build auth service
-        run: cd auth && npm i && npm run build
+        run: cd auth && npm run build
       - name: Test auth service
-        run: cd auth && npm i && npm run test:ci
+        run: cd auth && npm run test:ci
