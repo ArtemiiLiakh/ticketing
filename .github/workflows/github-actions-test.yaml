@@ -1,0 +1,22 @@
+name: Test services
+on: [pull_request]
+jobs:
+  init:
+    runs-on: ubuntu-20.04 
+    strategy:
+      matrix:
+        node-version: [20.x]
+    env:
+      JWT_SECRET: secret
+      HTTP_SECURE: false
+      CLIENT_URL: http://local.test.com:3000
+      CLIENT_DOMAIN: local.test.com
+      MONGO_URI: mongodb://localhost:27017/auth
+    steps:
+      - uses: actions/checkout@v4
+      - name: Starting Node.Js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Test auth service
+        run: cd auth && npm i && npm run build && npm run test:ci

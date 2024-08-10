@@ -10,7 +10,9 @@
     "start": "cross-env NODE_ENV=dev ts-node ./src/index.ts",
     "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.ts",
     "start:skaffold": "skaffold dev --no-prune=false --cache-artifacts=false --trigger=manual",
-    "test": "cross-env NODE_ENV=dev jest --watchAll --no-cache"
+    "test": "cross-env NODE_ENV=dev jest --watchAll --no-cache",
+    "test:ci": "cross-env NODE_ENV=dev jest",
+    "build": "tsc"
   },
   "jest": {
     "preset": "ts-jest",
