@@ -1,0 +1,62 @@
+{
+  "name": "@app2/service-utils",
+  "version": "1.0.0",
+  "main": "./dist/build/index.js",
+  "types": "./dist/types/index.d.ts",
+  "scripts": {
+    "clean": "del-cli ./dist/*",
+    "build": "npm run clean && tsc -p tsconfig.build.json && tsc -p tsconfig.types.json"
+  },
+  "exports": {
+    "./*": {
+      "types": "./dist/types/*.d.ts",
+      "require": "./dist/build/*.js"
+    },
+    "./eventbus": {
+      "types": "./dist/types/eventbus/index.d.ts",
+      "require": "./dist/build/eventbus/index.js"
+    },
+    "./eventbus/events": {
+      "types": "./dist/types/eventbus/events/index.d.ts",
+      "require": "./dist/build/eventbus/events/index.js"
+    },
+    "./eventbus/nats": {
+      "types": "./dist/types/eventbus/nats/index.d.ts",
+      "require": "./dist/build/eventbus/nats/index.js"
+    },
+    "./unitOfWork": {
+      "types": "./dist/types/unitOfWork/index.d.ts",
+      "require": "./dist/build/unitOfWork/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/types/*"
+      ],
+      "eventbus": [
+        "./dist/types/eventbus/index.d.ts"
+      ],
+      "eventbus/events": [
+        "./dist/types/eventbus/events/index.d.ts"
+      ],
+      "eventbus/clients": [
+        "./dist/types/eventbus/nats/index.d.ts"
+      ],
+      "unitOfWork": [
+        "./dist/types/unitOfWork/index.d.ts"
+      ]
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "del-cli": "^5.1.0",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "mongoose": "^8.15.0",
+    "node-nats-streaming": "^0.3.2"
+  }
+}

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nats-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats
+  template:
+    metadata:
+      labels:
+        app: nats
+    spec:
+      containers:
+        - name: nats
+          image: nats-streaming
+          args: [
+            '--cluster_id=test-cluster',
+            '--port=4222',
+            '--http_port=8222',
+            '--hb_interval=5s',
+            '--hb_timeout=5s',
+            '--hb_fail_count=2',
+            '--stan_debug=true',
+          ]
+          ports:
+          - name: nats-client
+            containerPort: 4222
+            protocol: TCP
+          - name: nats-monitoring
+            containerPort: 8222
+            protocol: TCP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nats-srv
+spec:
+  selector:
+    app: nats
+  ports:
+    - name: client
+      port: 4222
+      targetPort: 4222
+      protocol: TCP
+
+    - name: monitoring
+      port: 8222
+      targetPort: 8222
+      protocol: TCP

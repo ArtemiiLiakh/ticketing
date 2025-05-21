@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expiration-depl
+  namespace: microservices
+spec:
+  selector:
+    matchLabels:
+      app: expiration
+  template:
+    metadata:
+      labels:
+        app: expiration
+    spec:
+      containers:
+        - name: expiration
+          image: microservices:expiration
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REDIS_URI
+              value: redis://expiration-redis-srv:6379
+            - name: NATS_URL
+              value: http://nats-srv:4222

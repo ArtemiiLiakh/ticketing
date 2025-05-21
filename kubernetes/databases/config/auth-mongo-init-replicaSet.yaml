@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: auth-mongo-init
+  namespace: default
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: mongo-init
+        image: mongo:8.0
+        command:
+        - mongosh
+        - --host
+        - auth-mongo-sts-0.auth-mongo-srv
+        - --eval 
+        - |
+          rs.initiate({
+            _id: "rs0",
+            members: [{ _id: 0, host: "auth-mongo-sts-0.auth-mongo-srv:27017" }]
+          });

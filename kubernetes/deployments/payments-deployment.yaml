@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments
+  template:
+    metadata:
+      labels:
+        app: payments
+    spec:
+      containers:
+        - name: payments
+          image: microservices:payments
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: project-secrets
+                  key: jwt-key
+            - name: MONGO_URI
+              value: mongodb://payments-mongo-srv:27017/payments
+            - name: NATS_URL
+              value: http://nats-srv:4222
+            - name: STRIPE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secrets
+                  key: STRIPE_SECRET
+            - name: STRIPE_PUBLIC
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secrets
+                  key: STRIPE_PUBLIC
+                
+                  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-srv
+spec:
+  selector:
+    app: payments
+  type: ClusterIP
+  ports:
+    - name: payments
+      port: 5003
+      protocol: TCP
+
