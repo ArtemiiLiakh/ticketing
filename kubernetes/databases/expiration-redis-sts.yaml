@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: expiration-redis-config
+data:
+  redis.conf: |
+    appendonly yes
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: expiration-redis-sts
+spec:
+  selector:
+    matchLabels:
+      app: expiration-redis
+  serviceName: "expiration-redis-srv"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: expiration-redis
+    spec:
+      containers:
+        - name: expiration-redis
+          image: redis
+          ports:
+            - containerPort: 6379
+              name: redis
+          volumeMounts:
+            - name: redis-expiration-pvc
+              mountPath: /data
+              readOnly: false
+            - name: config
+              mountPath: /conf
+              readOnly: false
+          resources:
+            limits:
+              memory: "150Mi"
+              cpu: "200m"
+      volumes:
+        - name: config
+          configMap:
+            name: expiration-redis-config
+            items:
+              - key: "redis.conf"
+                path: "redis.conf"
+
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-expiration-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 100Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: expiration-redis-srv
+spec:
+  selector:
+    app: expiration-redis
+  type: ClusterIP
+  ports:
+    - name: expiration-redis-port
+      port: 6379
+      protocol: TCP

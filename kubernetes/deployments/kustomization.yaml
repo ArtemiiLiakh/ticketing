@@ -1,0 +1,7 @@
+resources:
+  - nats-deployment.yaml
+  - auth-deployment.yaml
+  - tickets-deployment.yaml
+  - orders-deployment.yaml
+  - expiration-deployment.yaml
+  - payments-deployment.yaml

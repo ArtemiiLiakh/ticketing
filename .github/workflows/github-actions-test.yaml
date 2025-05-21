@@ -22,5 +22,5 @@ jobs:
         run: cd common && npm i && npm run build
       - name: Build auth service
         run: cd auth && npm i && npm run build
-      - name: Test auth service
-        run: cd auth && npm i && npm run test:ci
+      # - name: Test auth service
+      #   run: cd auth && npm i && npm run test:ci

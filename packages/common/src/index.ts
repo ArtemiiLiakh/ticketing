@@ -1,0 +1,1 @@
+export { setCommonConfig } from './config';

@@ -1,0 +1,19 @@
+interface ConfigSchema {
+  API_URL: string;
+  STRIPE_PUBLIC: string;
+  NEXT_PUBLIC_OKTA_CLIENT_ID: string;
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: string;
+  NEXT_PUBLIC_GITHUB_CLIENT_ID: string;
+  NEXT_PUBLIC_HOST: string;
+}
+
+const config: ConfigSchema = {
+  API_URL: process.env.NEXT_PUBLIC_HOST! + '/api',
+  NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST!,
+  STRIPE_PUBLIC: process.env.NEXT_PUBLIC_STRIPE_PUBLIC!,
+  NEXT_PUBLIC_OKTA_CLIENT_ID: process.env.NEXT_PUBLIC_OKTA_CLIENT_ID!,
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+  NEXT_PUBLIC_GITHUB_CLIENT_ID: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID!,
+};
+
+export default config;

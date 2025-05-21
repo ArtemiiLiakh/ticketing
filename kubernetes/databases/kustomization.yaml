@@ -1,0 +1,6 @@
+resources:
+  - auth-mongodb-sts.yaml
+  - tickets-mongodb-sts.yaml
+  - orders-mongodb-sts.yaml
+  - payments-mongodb-sts.yaml
+  - expiration-redis-sts.yaml
